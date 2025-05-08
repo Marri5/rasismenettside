@@ -107,4 +107,36 @@ body {
     background-color: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.5);
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+#success-screen {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    background: transparent;
+    width: 100vw;
+    height: 100vh;
+}
+#success-screen h1, #success-screen p {
+    margin: 0;
+    padding: 0;
+}
+#white-fade-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2000;
+    transition: opacity 2s ease;
+}
+#white-fade-overlay.active {
+    opacity: 1;
+    pointer-events: all;
 } 
+
