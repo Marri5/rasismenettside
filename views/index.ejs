@@ -72,8 +72,17 @@
             text-align: center;
             margin-bottom: 20px;
         }
-        #declaration-input {
+        .declaration-form {
             width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        #declaration-input, #declaration-modal button {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #declaration-input {
             padding: 15px;
             margin: 10px 0;
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -98,7 +107,6 @@
             font-family: 'Courier New', monospace;
             font-size: 16px;
             transition: all 0.3s ease;
-            width: 100%;
             margin-top: 10px;
         }
         #declaration-modal button:hover {
@@ -113,8 +121,10 @@
     
     <div id="declaration-modal">
         <h2>Erklæring:</h2>
-        <input type="text" id="declaration-input" placeholder="Skriv: Rasisme er teit!">
-        <button onclick="submitDeclaration()">Send</button>
+        <div class="declaration-form">
+            <input type="text" id="declaration-input" placeholder="Skriv: Rasisme er teit!">
+            <button onclick="submitDeclaration()">Send</button>
+        </div>
     </div>
 
     <audio id="fanfare" src="/sounds/fanfare.mp3" preload="auto"></audio>
