@@ -14,7 +14,7 @@
         <h2>Erklæring:</h2>
         <div class="declaration-form">
             <input type="text" id="declaration-input" placeholder="Skriv: Rasisme er teit!">
-            <button onclick="submitDeclaration()">Send</button>
+            <button type="button" onclick="submitDeclaration()">Send</button>
         </div>
     </div>
 
@@ -30,15 +30,12 @@
         function addText() {
             if (isScrolling) {
                 textContainer.textContent += 'rasisme pågår!\n';
-                // Auto scroll to bottom
                 window.scrollTo(0, document.body.scrollHeight);
             }
         }
 
-        // Add text every 500ms
         setInterval(addText, 500);
 
-        // Auto scroll every 100ms to ensure smooth scrolling
         setInterval(() => {
             if (isScrolling) {
                 window.scrollTo(0, document.body.scrollHeight);
@@ -70,7 +67,6 @@
 
                 const particleCount = 50 * (timeLeft / duration);
                 
-                // Since particles fall down, start a bit higher than random
                 confetti({
                     ...defaults,
                     particleCount,
@@ -90,11 +86,9 @@
                 isScrolling = false;
                 textContainer.classList.add('fade-out');
                 declarationModal.style.display = 'none';
-                // Play fanfare sound
                 fanfare.play().catch(error => {
                     console.log('Error playing fanfare:', error);
                 });
-                // Trigger confetti
                 shootConfetti();
             }
         }
@@ -104,6 +98,8 @@
                 submitDeclaration();
             }
         });
+
+        window.submitDeclaration = submitDeclaration;
     </script>
 </body>
 </html> 
