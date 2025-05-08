@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rasisme pågår!</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', monospace;
+            background-color: black;
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+            width: 100vw;
+        }
+        #text-container {
+            white-space: pre-line;
+            line-height: 2;
+            font-size: 48px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+            width: 100vw;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                            0 0 30px rgba(255, 255, 255, 0.6);
+            }
+        }
+        .fade-out {
+            animation: fadeToWhite 2s forwards;
+        }
+        @keyframes fadeToWhite {
+            from { 
+                color: white;
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            }
+            to { 
+                color: white;
+                opacity: 0;
+                text-shadow: 0 0 40px rgba(255, 255, 255, 0);
+            }
+        }
+        #declaration-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+        }
+        #declaration-modal h2 {
+            color: white;
+            margin-top: 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #declaration-input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+        }
+        #declaration-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        #declaration-modal button {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 12px 25px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+        #declaration-modal button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="text-container"></div>
+    
+    <div id="declaration-modal">
+        <h2>Erklæring:</h2>
+        <input type="text" id="declaration-input" placeholder="Skriv: Rasisme er teit!">
+        <button onclick="submitDeclaration()">Send</button>
+    </div>
+
+    <audio id="fanfare" src="/sounds/fanfare.mp3" preload="auto"></audio>
+
+    <script>
+        const textContainer = document.getElementById('text-container');
+        const declarationModal = document.getElementById('declaration-modal');
+        const declarationInput = document.getElementById('declaration-input');
+        const fanfare = document.getElementById('fanfare');
+        let isScrolling = true;
+
+        function addText() {
+            if (isScrolling) {
+                textContainer.textContent += 'rasisme pågår!\n';
+                // Auto scroll to bottom
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+        }
+
+        // Add text every 500ms
+        setInterval(addText, 500);
+
+        // Auto scroll every 100ms to ensure smooth scrolling
+        setInterval(() => {
+            if (isScrolling) {
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+        }, 100);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && isScrolling) {
+                declarationModal.style.display = 'block';
+                declarationInput.focus();
+            }
+        });
+
+        function shootConfetti() {
+            const duration = 3 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+                
+                // Since particles fall down, start a bit higher than random
+                confetti({
+                    ...defaults,
+                    particleCount,
+                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+                });
+                confetti({
+                    ...defaults,
+                    particleCount,
+                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+                });
+            }, 250);
+        }
+
+        function submitDeclaration() {
+            const declaration = declarationInput.value.trim();
+            if (declaration === 'Rasisme er teit!') {
+                isScrolling = false;
+                textContainer.classList.add('fade-out');
+                declarationModal.style.display = 'none';
+                // Play fanfare sound
+                fanfare.play().catch(error => {
+                    console.log('Error playing fanfare:', error);
+                });
+                // Trigger confetti
+                shootConfetti();
+            }
+        }
+
+        declarationInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                submitDeclaration();
+            }
+        });
+    </script>
+</body>
+</html> 
